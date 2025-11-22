@@ -36,9 +36,6 @@
         <option th:value="INACTIVE">INACTIVE</option>
       </select>
 
-      <label>Photo URL (optional)</label>
-      <input th:field="*{photoUrl}"/>
-
       <div class="row gap">
         <button class="btn" type="submit">[[#{employees.save}]]</button>
         <a class="btn ghost" th:href="@{/employees}">[[#{employees.cancel}]]</a>

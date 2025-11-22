@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+      th:replace="fragments/layout :: layout(~{::title}, ~{::section})">
 <head>
-  <title>[[#{ai.title}]]</title>
+  <title>Análise IA</title>
 </head>
 <body>
-<main>
-  <h1>[[#{ai.title}]]</h1>
+<section>
+  <h1>IA de ajuda geral sobre EPI's</h1>
 
-  <section class="card">
-    <form th:action="@{/ai/analyze}" method="post" enctype="multipart/form-data">
-      <label>[[#{ai.prompt.label}]]</label>
-      <textarea name="prompt" rows="4" th:text="${prompt}"></textarea>
-
-      <label>[[#{ai.image.label}]]</label>
-      <input name="image" type="file" accept="image/*"/>
-
-      <button class="btn" type="submit">[[#{ai.submit}]]</button>
-    </form>
-
-    <div th:if="${result != null}" class="result">
-      <h3>[[#{ai.result}]]</h3>
-      <pre th:text="${result}"></pre>
+  <form th:action="@{/ai/analyze}" method="post" class="card">
+    <div class="form-group">
+      <label for="prompt">Descreva a situacao ou cole um texto</label>
+      <textarea id="prompt"
+                name="prompt"
+                rows="5"
+                th:text="${prompt}"
+                placeholder="Ex: Operador está sem luvas na área de corte, próximo à serra..."></textarea>
     </div>
+
+    <div class="form-actions" style="margin-top: 1rem;">
+      <button type="submit" class="btn btn-primary">Analisar</button>
+    </div>
+  </form>
+
+  <section class="card" th:if="${result}" style="margin-top: 2rem;">
+    <h2>Resultado da IA</h2>
+    <pre th:text="${result}" style="white-space: pre-wrap;"></pre>
   </section>
-</main>
+</section>
 </body>
 </html>

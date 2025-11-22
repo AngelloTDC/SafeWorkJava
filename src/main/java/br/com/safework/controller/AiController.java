@@ -3,8 +3,10 @@ package br.com.safework.controller;
 import br.com.safework.service.AiService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/ai")
@@ -17,16 +19,18 @@ public class AiController {
     }
 
     @GetMapping
-    public String page() {
+    public String page(Model model) {
+        // garante valores iniciais
+        model.addAttribute("prompt", "");
+        model.addAttribute("result", null);
         return "ai/page";
     }
 
     @PostMapping("/analyze")
     public String analyze(@RequestParam(required = false) String prompt,
-                          @RequestParam(required = false) MultipartFile image,
                           Model model) {
 
-        String result = aiService.analyze(prompt, image);
+        String result = aiService.analyze(prompt);
         model.addAttribute("result", result);
         model.addAttribute("prompt", prompt);
 

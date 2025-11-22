@@ -2,16 +2,20 @@
 <html lang="pt" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
 <head>
-  <title>[[#{alerts.new}]]</title>
+  <title>[[${alert.id} == null ? #{alerts.new} : #{alerts.edit}]]</title>
 </head>
 <body>
 <main>
-  <h1>[[#{alerts.new}]]</h1>
+  <h1 th:text="${alert.id} == null ? #{alerts.new} : #{alerts.edit}">Alerta</h1>
 
   <section class="card">
     <form th:action="@{/alerts}" th:object="${alert}" method="post">
+      <!-- IMPORTANTE: hidden id pra distinguir novo/edição -->
+      <input type="hidden" th:field="*{id}"/>
+
       <label>[[#{alerts.employee}]]</label>
       <select th:field="*{employeeId}">
+        <option value="">Selecione...</option>
         <option th:each="e : ${employees}"
                 th:value="${e.id}"
                 th:text="${e.name}"></option>
@@ -20,6 +24,7 @@
 
       <label>[[#{alerts.type}]]</label>
       <select th:field="*{type}">
+        <option value="">Selecione...</option>
         <option th:each="t : ${types}"
                 th:value="${t}"
                 th:text="${t}"></option>
@@ -28,6 +33,7 @@
 
       <label>[[#{alerts.severity}]]</label>
       <select th:field="*{severity}">
+        <option value="">Selecione...</option>
         <option th:each="s : ${severities}"
                 th:value="${s}"
                 th:text="${s}"></option>
@@ -36,9 +42,10 @@
 
       <label>Descrição</label>
       <textarea th:field="*{description}" rows="3"></textarea>
+      <span class="error" th:errors="*{description}"></span>
 
       <div class="row gap">
-        <button class="btn" type="submit">Criar</button>
+        <button class="btn" type="submit">Salvar</button>
         <a class="btn ghost" th:href="@{/alerts}">Cancelar</a>
       </div>
     </form>

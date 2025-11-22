@@ -4,7 +4,7 @@
 <head>
   <title>[[#{alerts.title}]]</title>
 </head>
-<body>
+
 <main>
   <div class="row between">
     <h1>[[#{alerts.title}]]</h1>
@@ -21,22 +21,38 @@
         <th>[[#{alerts.employee}]]</th>
         <th>[[#{alerts.status}]]</th>
         <th>[[#{alerts.createdAt}]]</th>
-        <th></th>
+        <th>Ações</th>
       </tr>
       </thead>
       <tbody>
-      <tr th:each="a : ${page.content}">
+      <tr th:if="${page.totalElements == 0}">
+        <td colspan="7" class="empty">[[#{alerts.empty}]]</td>
+      </tr>
+
+      <tr th:each="a : ${page.content}" th:unless="${page.totalElements == 0}">
         <td th:text="${a.id}"></td>
         <td th:text="${a.type}"></td>
         <td th:text="${a.severity}"></td>
         <td th:text="${a.employee.name}"></td>
         <td th:text="${a.status}"></td>
         <td th:text="${#temporals.format(a.createdAt,'dd/MM/yyyy HH:mm')}"></td>
-        <td>
+        <td class="actions">
+          <a th:href="@{'/alerts/' + ${a.id} + '/edit'}">[[#{alerts.edit}]]</a>
+
+          <form th:action="@{'/alerts/' + ${a.id} + '/delete'}"
+                method="post" style="display:inline;"
+                onsubmit="return confirm('Tem certeza que deseja excluir este alerta?');">
+            <button class="linkbtn danger" type="submit">
+              [[#{alerts.delete}]]
+            </button>
+          </form>
+
           <form th:if="${a.status.name() != 'RESOLVED'}"
                 th:action="@{'/alerts/' + ${a.id} + '/resolve'}"
-                method="post">
-            <button class="linkbtn" type="submit">[[#{alerts.resolve}]]</button>
+                method="post" style="display:inline;">
+            <button class="linkbtn" type="submit">
+              [[#{alerts.resolve}]]
+            </button>
           </form>
         </td>
       </tr>
@@ -52,5 +68,4 @@
     </div>
   </section>
 </main>
-</body>
 </html>

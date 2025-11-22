@@ -1,7 +1,9 @@
 package br.com.safework.service;
 
 import br.com.safework.dto.EmployeeDTO;
+import br.com.safework.exception.BusinessException;
 import br.com.safework.model.Employee;
+import br.com.safework.repository.AlertRepository;
 import br.com.safework.repository.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
@@ -15,10 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmployeeService {
 
     private final EmployeeRepository repo;
+    private final AlertRepository alertRepo;
 
-    // construtor explícito – não depende de Lombok
-    public EmployeeService(EmployeeRepository repo) {
+    public EmployeeService(EmployeeRepository repo, AlertRepository alertRepo) {
         this.repo = repo;
+        this.alertRepo = alertRepo;
     }
 
     @Cacheable("employees")
@@ -38,10 +41,8 @@ public class EmployeeService {
         Employee e;
 
         if (dto.getId() != null) {
-            // edição
             e = get(dto.getId());
         } else {
-            // novo
             e = new Employee();
         }
 
@@ -58,6 +59,9 @@ public class EmployeeService {
     @Transactional
     @CacheEvict(value = {"employees", "employeeById"}, allEntries = true)
     public void delete(Long id) {
+        if (alertRepo.existsByEmployeeId(id)) {
+            throw new BusinessException("employee.delete.hasAlerts");
+        }
         repo.deleteById(id);
     }
 }

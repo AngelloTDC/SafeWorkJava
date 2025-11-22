@@ -1,3 +1,4 @@
+
 # SafeWork – WebApp
 
 Painel web administrativo do **SafeWork**, uma plataforma para monitorar segurança e bem-estar no trabalho usando visão computacional, mensageria e IA generativa.
@@ -22,7 +23,7 @@ Este projeto é o **módulo Web** do SafeWork:
 - Gestão de funcionários
 - Gestão de alertas de segurança (criados via sistema ou fila RabbitMQ)
 - Dashboard com KPIs
-- Tela de análise com IA generativa para interpretar situações/imagens
+- Tela de apoio com IA generativa para interpretar situações de segurança
 
 O objetivo é mostrar na prática vários tópicos da disciplina:
 
@@ -39,22 +40,22 @@ O objetivo é mostrar na prática vários tópicos da disciplina:
 
 - **Java 21**
 - **Spring Boot 3**
-   - Spring Web (MVC + Thymeleaf)
-   - Spring Data JPA
-   - Spring Security
-   - Spring Cache (Caffeine)
-   - Bean Validation
+  - Spring Web (MVC + Thymeleaf)
+  - Spring Data JPA
+  - Spring Security
+  - Spring Cache (Caffeine)
+  - Bean Validation
 - **Banco de dados**
-   - H2 (memória, para desenvolvimento)
-   - Config pronto para Postgres
+  - H2 (memória, para desenvolvimento)
+  - Config pronto para Postgres
 - **Mensageria**
-   - RabbitMQ (producer + consumer de alertas)
+  - RabbitMQ (producer + consumer de alertas)
 - **IA**
-   - Spring AI + ChatClient (ex.: Ollama / modelo local)
+  - Spring AI + ChatClient (ex.: Ollama / modelo local)
 - **Outros**
-   - Lombok (em algumas partes)
-   - Maven
-   - Docker / Docker Compose
+  - Lombok (em algumas partes)
+  - Maven
+  - Docker / Docker Compose
 
 ---
 
@@ -68,12 +69,12 @@ O objetivo é mostrar na prática vários tópicos da disciplina:
 - **i18n (internacionalização)** para PT-BR/EN (labels e mensagens)
 - **Paginação** em listas (ex.: funcionários, alertas)
 - **Spring Security**
-   - Autenticação em formulário
-   - Perfis de acesso (`ROLE_ADMIN`, `ROLE_SUPERVISOR`)
-- **Tratamento de erros** com página dedicada (`error` / fragmento de erro)
+  - Autenticação em formulário
+  - Perfis de acesso (`ROLE_ADMIN`, `ROLE_SUPERVISOR`)
+- **Tratamento de erros** com página dedicada (`error` / fragmento de erro) e mensagens de negócio amigáveis
 - **Mensageria RabbitMQ**
-   - Producer publica alertas
-   - Consumer recebe mensagem e cria `Alert` na base
+  - Producer publica alertas
+  - Consumer recebe mensagem e cria `Alert` na base
 - **Integração com IA** via Spring AI (ChatClient) para análise de contexto de segurança
 - **Deploy preparado com Docker / Docker Compose**
 
@@ -84,10 +85,10 @@ O objetivo é mostrar na prática vários tópicos da disciplina:
 ### Dashboard (`/`)
 
 - KPIs:
-   - Total de funcionários cadastrados
-   - Quantidade de alertas abertos
-   - Alertas gerados nas últimas 24h
-   - Estimativa de “horas seguras”
+  - Total de funcionários cadastrados
+  - Quantidade de alertas abertos
+  - Alertas gerados nas últimas 24h
+  - Estimativa de “horas seguras”
 - Tabela com últimos alertas criados (lista reduzida)
 
 ### Funcionários (`/employees`)
@@ -96,10 +97,11 @@ O objetivo é mostrar na prática vários tópicos da disciplina:
 - Cadastro de novo funcionário
 - Edição de funcionário existente
 - Exclusão de funcionário
+  - Bloqueio amigável caso o funcionário tenha alertas associados (mensagem de negócio)
 - Validações:
-   - Nome obrigatório
-   - E-mail obrigatório e válido
-   - Cargo, departamento e status obrigatórios
+  - Nome obrigatório
+  - E-mail obrigatório e válido
+  - Cargo, departamento e status obrigatórios
 
 ### Alertas (`/alerts`)
 
@@ -107,19 +109,22 @@ O objetivo é mostrar na prática vários tópicos da disciplina:
 - Criação manual de alerta (associado a um funcionário)
 - Mudança de status para **RESOLVED**
 - Validação de campos:
-   - Funcionário obrigatório
-   - Tipo obrigatório
-   - Severidade obrigatória
-   - Descrição com limite de caracteres
+  - Funcionário obrigatório
+  - Tipo obrigatório
+  - Severidade obrigatória
+  - Descrição com limite de caracteres
 - Alertas também podem ser criados automaticamente via **fila RabbitMQ**
 
 ### IA – Análise de Segurança (`/ai`)
 
-- Tela para enviar:
-   - Um prompt de texto (descrição da situação)
-   - Opcionalmente uma imagem (arquivo)
-- O serviço monta um prompt para IA como especialista em segurança do trabalho
-- Resposta é exibida no próprio painel (risco, EPI faltando, recomendação etc.)
+- Tela de texto para o usuário descrever a situação (ex.: “operador sem luvas perto de uma serra”)
+- O serviço monta um prompt para IA como **especialista em segurança do trabalho** e pede:
+  1. O que está acontecendo
+  2. Risco envolvido
+  3. EPI faltando
+  4. Recomendações
+
+A resposta estruturada é exibida na própria tela, como apoio ao supervisor.
 
 ---
 
@@ -163,8 +168,8 @@ docker-compose up -d
 ```
 
 - Management UI: `http://localhost:15672`
-   - usuário: `guest`
-   - senha: `guest`
+  - usuário: `guest`
+  - senha: `guest`
 
 ### Troca de mensagens
 
@@ -197,27 +202,26 @@ Exemplo com **Ollama** rodando localmente:
 
 1. Instale o Ollama e rode o servidor:
 
-```bash
-ollama serve
-```
+   ```bash
+   ollama serve
+   ```
 
 2. Baixe um modelo (exemplo):
 
-```bash
-ollama pull llama3.1
-```
+   ```bash
+   ollama pull llama3.1
+   ```
 
 3. Configure o modelo no `application.yml` do projeto (nome do modelo etc.).
 
-Depois disso, na tela **Análise IA** (`/ai`), basta:
+Depois disso, na tela **IA de ajuda geral sobre EPI's** (`/ai`), basta:
 
-- Escrever uma breve descrição do cenário
-- (Opcional) anexar uma imagem da situação
-- A IA retorna análise com:
-   - Situação
-   - Risco
-   - EPI faltando
-   - Recomendações
+- Escrever uma breve descrição do cenário em português
+- A IA retorna uma análise com:
+  - Situação
+  - Risco
+  - EPI faltando
+  - Recomendações
 
 ---
 
@@ -263,7 +267,7 @@ Ou pelo IntelliJ:
 - `br.com.safework.dto` – DTOs usados nos formulários e integração
 - `br.com.safework.repository` – interfaces Spring Data JPA
 - `br.com.safework.messaging` – producer/consumer e modelos de mensagem para RabbitMQ
-- `br.com.safework.config` – configurações (DataInitializer, RabbitMQ, etc.)
+- `br.com.safework.config` – configurações (DataInitializer, RabbitMQ, segurança, cache, i18n)
 - `src/main/resources/templates` – páginas Thymeleaf (dashboard, employees, alerts, ai, fragments)
 - `src/main/resources/i18n` – arquivos de mensagens (PT-BR / EN)
 
@@ -271,7 +275,7 @@ Ou pelo IntelliJ:
 
 ## 📌 Observações finais
 
-- O foco aqui é **mostrar na prática** os pontos cobrados em Java Advanced, aplicados num cenário de segurança do trabalho.
+- O foco é **demonstrar os pontos cobrados em Java Advanced** aplicados num cenário de segurança do trabalho.
 - A aplicação foi pensada para ser fácil de subir para a banca: subir RabbitMQ, rodar Spring Boot, logar e navegar pelos fluxos principais.
 
-Qualquer dúvida na hora de rodar ou apresentar, dá pra se guiar por este README e pelos comentários no código.
+Este README serve como roteiro para rodar o sistema e também como guia de apresentação para a banca.
