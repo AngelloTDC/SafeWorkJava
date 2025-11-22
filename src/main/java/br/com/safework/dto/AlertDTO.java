@@ -8,34 +8,31 @@ import jakarta.validation.constraints.Size;
 
 public class AlertDTO {
 
-    @NotNull
+    private Long id;
+
+    @NotNull(message = "{alert.employeeId.notNull}")
     private Long employeeId;
 
-    @NotNull
+    @NotNull(message = "{alert.type.notNull}")
     private AlertType type;
 
-    @NotNull
+    @NotNull(message = "{alert.severity.notNull}")
     private AlertSeverity severity;
 
-    // opcional; se vier null, o service assume AlertStatus.OPEN
+    // opcional no formulário – se vier nulo o serviço coloca OPEN
     private AlertStatus status;
 
-    @Size(max = 500)
+    @Size(max = 500, message = "{alert.description.size}")
     private String description;
 
-    public AlertDTO() {
+    // GETTERS E SETTERS
+
+    public Long getId() {
+        return id;
     }
 
-    public AlertDTO(Long employeeId,
-                    AlertType type,
-                    AlertSeverity severity,
-                    AlertStatus status,
-                    String description) {
-        this.employeeId = employeeId;
-        this.type = type;
-        this.severity = severity;
-        this.status = status;
-        this.description = description;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getEmployeeId() {

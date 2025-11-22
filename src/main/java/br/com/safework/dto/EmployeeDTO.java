@@ -3,50 +3,37 @@ package br.com.safework.dto;
 import br.com.safework.model.EmployeeStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class EmployeeDTO {
 
     private Long id;
 
-    @NotBlank
-    @Size(max = 120)
+    @NotBlank(message = "{employee.name.notBlank}")
+    @Size(max = 120, message = "{employee.name.size}")
     private String name;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "{employee.email.notBlank}")
+    @Email(message = "{employee.email.valid}")
+    @Size(max = 255, message = "{employee.email.size}")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "{employee.role.notBlank}")
+    @Size(max = 255, message = "{employee.role.size}")
     private String role;
 
-    @NotBlank
+    @NotBlank(message = "{employee.department.notBlank}")
+    @Size(max = 255, message = "{employee.department.size}")
     private String department;
 
+    @NotNull(message = "{employee.status.notNull}")
     private EmployeeStatus status;
 
+    @Size(max = 255, message = "{employee.photoUrl.size}")
     private String photoUrl;
 
-    public EmployeeDTO() {
-    }
-
-    public EmployeeDTO(Long id,
-                       String name,
-                       String email,
-                       String role,
-                       String department,
-                       EmployeeStatus status,
-                       String photoUrl) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.role = role;
-        this.department = department;
-        this.status = status;
-        this.photoUrl = photoUrl;
-    }
-
-    // --- getters / setters ---
+    // GETTERS E SETTERS
 
     public Long getId() {
         return id;

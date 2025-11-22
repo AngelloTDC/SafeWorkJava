@@ -16,7 +16,7 @@ public class EmployeeService {
 
     private final EmployeeRepository repo;
 
-    // construtor explícito (sem Lombok)
+    // construtor explícito – não depende de Lombok
     public EmployeeService(EmployeeRepository repo) {
         this.repo = repo;
     }
@@ -37,10 +37,11 @@ public class EmployeeService {
     public Employee save(EmployeeDTO dto) {
         Employee e;
 
-        // se vier id, tenta editar; se não, cria novo
         if (dto.getId() != null) {
-            e = repo.findById(dto.getId()).orElse(new Employee());
+            // edição
+            e = get(dto.getId());
         } else {
+            // novo
             e = new Employee();
         }
 
