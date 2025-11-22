@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>[[#{alerts.title}]]</title>
+</head>
+<body>
+<main>
+  <div class="row between">
+    <h1>[[#{alerts.title}]]</h1>
+    <a class="btn" th:href="@{/alerts/new}">[[#{alerts.new}]]</a>
+  </div>
+
+  <section class="card">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>[[#{alerts.type}]]</th>
+        <th>[[#{alerts.severity}]]</th>
+        <th>[[#{alerts.employee}]]</th>
+        <th>[[#{alerts.status}]]</th>
+        <th>[[#{alerts.createdAt}]]</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="a : ${page.content}">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.type}"></td>
+        <td th:text="${a.severity}"></td>
+        <td th:text="${a.employee.name}"></td>
+        <td th:text="${a.status}"></td>
+        <td th:text="${#temporals.format(a.createdAt,'dd/MM/yyyy HH:mm')}"></td>
+        <td>
+          <form th:if="${a.status.name() != 'RESOLVED'}"
+                th:action="@{'/alerts/' + ${a.id} + '/resolve'}"
+                method="post">
+            <button class="linkbtn" type="submit">[[#{alerts.resolve}]]</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <a th:if="${page.hasPrevious()}"
+         th:href="@{/alerts(page=${page.number-1},size=${page.size})}">← Prev</a>
+      <span th:text="${page.number + 1} + ' / ' + ${page.totalPages}"></span>
+      <a th:if="${page.hasNext()}"
+         th:href="@{/alerts(page=${page.number+1},size=${page.size})}">Next →</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

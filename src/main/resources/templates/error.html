@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>Erro - SafeWork</title>
+</head>
+<body>
+<main>
+  <section class="card">
+    <h2 th:text="${messageKey != null} ? #{${messageKey}} : 'Ocorreu um erro'">Ocorreu um erro</h2>
+    <p th:text="${details} ?: 'Tente novamente ou contate o suporte.'">
+      Tente novamente ou contate o suporte.
+    </p>
+    <a class="btn" th:href="@{/}">Voltar para o Dashboard</a>
+  </section>
+</main>
+</body>
+</html>

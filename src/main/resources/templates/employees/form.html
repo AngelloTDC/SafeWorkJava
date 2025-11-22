@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title th:text="${employee.id == null} ? #{employees.new} : #{employees.edit}">
+    Form
+  </title>
+</head>
+<body>
+<main>
+  <h1 th:text="${employee.id == null} ? #{employees.new} : #{employees.edit}">Form</h1>
+
+  <section class="card">
+    <form th:action="@{/employees}" th:object="${employee}" method="post">
+      <input type="hidden" th:field="*{id}"/>
+
+      <label>[[#{employees.name}]]</label>
+      <input th:field="*{name}"/>
+      <span class="error" th:errors="*{name}"></span>
+
+      <label>[[#{employees.email}]]</label>
+      <input th:field="*{email}"/>
+      <span class="error" th:errors="*{email}"></span>
+
+      <label>[[#{employees.role}]]</label>
+      <input th:field="*{role}"/>
+      <span class="error" th:errors="*{role}"></span>
+
+      <label>[[#{employees.department}]]</label>
+      <input th:field="*{department}"/>
+      <span class="error" th:errors="*{department}"></span>
+
+      <label>[[#{employees.status}]]</label>
+      <select th:field="*{status}">
+        <option th:value="ACTIVE">ACTIVE</option>
+        <option th:value="INACTIVE">INACTIVE</option>
+      </select>
+
+      <label>Photo URL (optional)</label>
+      <input th:field="*{photoUrl}"/>
+
+      <div class="row gap">
+        <button class="btn" type="submit">[[#{employees.save}]]</button>
+        <a class="btn ghost" th:href="@{/employees}">[[#{employees.cancel}]]</a>
+      </div>
+    </form>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>[[#{ai.title}]]</title>
+</head>
+<body>
+<main>
+  <h1>[[#{ai.title}]]</h1>
+
+  <section class="card">
+    <form th:action="@{/ai/analyze}" method="post" enctype="multipart/form-data">
+      <label>[[#{ai.prompt.label}]]</label>
+      <textarea name="prompt" rows="4" th:text="${prompt}"></textarea>
+
+      <label>[[#{ai.image.label}]]</label>
+      <input name="image" type="file" accept="image/*"/>
+
+      <button class="btn" type="submit">[[#{ai.submit}]]</button>
+    </form>
+
+    <div th:if="${result != null}" class="result">
+      <h3>[[#{ai.result}]]</h3>
+      <pre th:text="${result}"></pre>
+    </div>
+  </section>
+</main>
+</body>
+</html>

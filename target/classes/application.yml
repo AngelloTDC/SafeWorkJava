@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: safework-webapp
+  datasource:
+    url: jdbc:h2:mem:safework;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  thymeleaf:
+    cache: false
+
+  messages:
+    basename: i18n/messages
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+# Spring AI Ollama
+spring.ai.ollama:
+  base-url: http://localhost:11434
+  chat:
+    model: llama3.1
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  security:
+    admin-user: admin
+    admin-pass: admin123
+    supervisor-user: supervisor
+    supervisor-pass: supervisor123

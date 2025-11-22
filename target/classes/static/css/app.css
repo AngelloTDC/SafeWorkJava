@@ -1,0 +1,33 @@
+:root { font-family: system-ui, Arial, sans-serif; }
+body { margin:0; background:#0b0d10; color:#e8eef6; }
+a { color:#7cc4ff; text-decoration:none; }
+a:hover { text-decoration:underline; }
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:12px 18px; background:#10141a; position:sticky; top:0; }
+.brand { font-weight:700; letter-spacing:0.5px; }
+.topbar nav a { margin-right:12px; }
+.container { padding:18px; max-width:1100px; margin:0 auto; }
+.footer { padding:12px 18px; color:#98a2b3; font-size:12px; }
+.card { background:#121821; border:1px solid #1f2a37; border-radius:14px; padding:16px; margin:12px 0; box-shadow:0 8px 20px rgba(0,0,0,.25); }
+.center { display:flex; height:100vh; align-items:center; justify-content:center; }
+label { display:block; margin-top:10px; margin-bottom:4px; color:#cbd5e1; }
+input, select, textarea { width:100%; padding:10px 12px; border:1px solid #233041; border-radius:10px; background:#0f1520; color:#e8eef6; }
+button { cursor:pointer; }
+.btn { display:inline-block; background:#2563eb; color:white; padding:10px 14px; border-radius:10px; border:0; font-weight:600; }
+.btn.ghost { background:transparent; border:1px solid #2a3b52; color:#cbd5e1; }
+.linkbtn { background:transparent; border:none; color:#7cc4ff; padding:0; font:inherit; }
+.linkbtn.danger { color:#ff8a8a; }
+.row { display:flex; align-items:center; }
+.between { justify-content:space-between; }
+.gap { gap:8px; }
+.kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.kpi { background:#0f1520; border:1px solid #1f2a37; border-radius:12px; padding:12px; }
+.kpi-title { font-size:12px; color:#9aa4b2; }
+.kpi-value { font-size:26px; font-weight:700; margin-top:4px; }
+table { width:100%; border-collapse:collapse; }
+th, td { padding:8px; border-bottom:1px solid #1f2a37; font-size:14px; }
+th { text-align:left; color:#9aa4b2; font-weight:600; }
+.error { color:#ff8a8a; font-size:12px; }
+.muted { color:#9aa4b2; font-size:12px; margin-top:8px; }
+.pagination { display:flex; gap:10px; justify-content:center; padding-top:10px; }
+.result pre { white-space:pre-wrap; background:#0f1520; padding:12px; border-radius:10px; border:1px solid #233041; }
+.actions { white-space:nowrap; }

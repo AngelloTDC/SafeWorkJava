@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>[[#{dashboard.title}]]</title>
+</head>
+<body>
+<main>
+  <h1>[[#{dashboard.title}]]</h1>
+
+  <section class="kpis">
+    <div class="kpi">
+      <div class="kpi-title">[[#{dashboard.kpi.employees}]]</div>
+      <div class="kpi-value" th:text="${employeesCount}">0</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-title">[[#{dashboard.kpi.alertsOpen}]]</div>
+      <div class="kpi-value" th:text="${alertsOpen}">0</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-title">[[#{dashboard.kpi.alertsToday}]]</div>
+      <div class="kpi-value" th:text="${alertsToday}">0</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-title">[[#{dashboard.kpi.safeHours}]]</div>
+      <div class="kpi-value" th:text="${safeHours}">0</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>[[#{dashboard.lastAlerts}]]</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>[[#{alerts.type}]]</th>
+        <th>[[#{alerts.severity}]]</th>
+        <th>[[#{alerts.employee}]]</th>
+        <th>[[#{alerts.status}]]</th>
+        <th>[[#{alerts.createdAt}]]</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="a : ${lastAlerts}">
+        <td th:text="${a.id}">1</td>
+        <td th:text="${a.type}">NO_HELMET</td>
+        <td th:text="${a.severity}">HIGH</td>
+        <td th:text="${a.employee.name}">Emp</td>
+        <td th:text="${a.status}">OPEN</td>
+        <td th:text="${#temporals.format(a.createdAt,'dd/MM/yyyy HH:mm')}">now</td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+</body>
+</html>

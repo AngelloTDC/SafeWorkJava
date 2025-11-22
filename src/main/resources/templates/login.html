@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>SafeWork Login</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+<body class="center">
+<div class="card">
+  <h2>[[#{login.title}]]</h2>
+  <form th:action="@{/login}" method="post">
+    <label>[[#{login.username}]]</label>
+    <input name="username" type="text" required/>
+    <label>[[#{login.password}]]</label>
+    <input name="password" type="password" required/>
+    <button type="submit">[[#{login.submit}]]</button>
+    <p class="error" th:if="${param.error}">[[#{login.error}]]</p>
+  </form>
+  <p class="muted">admin/admin123 • supervisor/supervisor123</p>
+</div>
+</body>
+</html>

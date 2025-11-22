@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>[[#{alerts.new}]]</title>
+</head>
+<body>
+<main>
+  <h1>[[#{alerts.new}]]</h1>
+
+  <section class="card">
+    <form th:action="@{/alerts}" th:object="${alert}" method="post">
+      <label>[[#{alerts.employee}]]</label>
+      <select th:field="*{employeeId}">
+        <option th:each="e : ${employees}"
+                th:value="${e.id}"
+                th:text="${e.name}"></option>
+      </select>
+      <span class="error" th:errors="*{employeeId}"></span>
+
+      <label>[[#{alerts.type}]]</label>
+      <select th:field="*{type}">
+        <option th:each="t : ${types}"
+                th:value="${t}"
+                th:text="${t}"></option>
+      </select>
+      <span class="error" th:errors="*{type}"></span>
+
+      <label>[[#{alerts.severity}]]</label>
+      <select th:field="*{severity}">
+        <option th:each="s : ${severities}"
+                th:value="${s}"
+                th:text="${s}"></option>
+      </select>
+      <span class="error" th:errors="*{severity}"></span>
+
+      <label>Descrição</label>
+      <textarea th:field="*{description}" rows="3"></textarea>
+
+      <div class="row gap">
+        <button class="btn" type="submit">Criar</button>
+        <a class="btn ghost" th:href="@{/alerts}">Cancelar</a>
+      </div>
+    </form>
+  </section>
+</main>
+</body>
+</html>

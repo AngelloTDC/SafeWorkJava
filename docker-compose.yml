@@ -1,0 +1,14 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: safework
+      POSTGRES_USER: safework
+      POSTGRES_PASSWORD: safework
+    ports:
+      - "5432:5432"

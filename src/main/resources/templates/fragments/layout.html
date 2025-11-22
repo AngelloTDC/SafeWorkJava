@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout (title, content)">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title th:replace="${title} ?: #{app.title}">SafeWork Web</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">SafeWork</div>
+  <nav>
+    <a th:href="@{/}">[[#{nav.dashboard}]]</a>
+    <a th:href="@{/employees}">[[#{nav.employees}]]</a>
+    <a th:href="@{/alerts}">[[#{nav.alerts}]]</a>
+    <a th:href="@{/ai}">[[#{nav.ai}]]</a>
+  </nav>
+  <div class="actions">
+    <a th:href="@{/?lang=pt_BR}">BR</a>
+    <a th:href="@{/?lang=en}">US</a>
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+      <button class="linkbtn" type="submit">[[#{nav.logout}]]</button>
+    </form>
+  </div>
+</header>
+
+<main class="container" th:insert="${content}"></main>
+
+<footer class="footer">
+  SafeWork Web • FIAP Java Advanced
+</footer>
+</body>
+</html>

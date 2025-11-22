@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>[[#{employees.title}]]</title>
+</head>
+<body>
+<main>
+  <div class="row between">
+    <h1>[[#{employees.title}]]</h1>
+    <a class="btn" th:href="@{/employees/new}">[[#{employees.new}]]</a>
+  </div>
+
+  <section class="card">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>[[#{employees.name}]]</th>
+        <th>[[#{employees.email}]]</th>
+        <th>[[#{employees.role}]]</th>
+        <th>[[#{employees.department}]]</th>
+        <th>[[#{employees.status}]]</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="e : ${page.content}">
+        <td th:text="${e.id}"></td>
+        <td th:text="${e.name}"></td>
+        <td th:text="${e.email}"></td>
+        <td th:text="${e.role}"></td>
+        <td th:text="${e.department}"></td>
+        <td th:text="${e.status}"></td>
+        <td class="actions">
+          <a th:href="@{'/employees/' + ${e.id} + '/edit'}">[[#{employees.edit}]]</a>
+          <form th:action="@{'/employees/' + ${e.id} + '/delete'}"
+                method="post" style="display:inline;">
+            <button class="linkbtn danger" type="submit">
+              [[#{employees.delete}]]
+            </button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <a th:if="${page.hasPrevious()}"
+         th:href="@{/employees(page=${page.number-1},size=${page.size})}">← Prev</a>
+      <span th:text="${page.number + 1} + ' / ' + ${page.totalPages}"></span>
+      <a th:if="${page.hasNext()}"
+         th:href="@{/employees(page=${page.number+1},size=${page.size})}">Next →</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>
