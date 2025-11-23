@@ -29,7 +29,6 @@ spring:
     username: guest
     password: guest
 
-# Spring AI Ollama
 spring.ai.ollama:
   base-url: http://localhost:11434
   chat:
